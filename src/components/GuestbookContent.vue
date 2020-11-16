@@ -56,4 +56,26 @@ export default {
 .item_content {
   padding-left: 58px;
 }
+.user_info .user_name {
+  font-size: 15px;
+  color: #5a6d96;
+  float: left;
+  line-height: 22px;
+  margin-right: 10px;
+}
+.user_info .public_time {
+  font-size: 12px;
+  color: #b2b2b2;
+  float: left;
+  line-height: 22px;
+}
+.desc_para {
+  font-size: 15px;
+  line-height: 24px;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+.user_info {
+  overflow: hidden;
+}
 </style>

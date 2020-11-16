@@ -2,20 +2,27 @@
   <el-card class="box-card">
     <div slot="header" class="clearfix">
       <span>公告栏</span>
-      <el-button style="float: right; padding: 3px 0" type="text">
-        留言
-      </el-button>
+      <div @click="showModel">
+        <el-button style="float: right; padding: 3px 0" type="text">
+          留言
+        </el-button>
+      </div>
     </div>
     <div class="text item">
-      1111
+      期待你的声音
     </div>
   </el-card>
 </template>
 
 <script>
 export default {
-  name: "GuestbookNotice"
-};
+  name: "GuestbookNotice",
+  methods: {
+    showModel () {
+      this.$emit('showModel',true)
+    }
+  }
+}
 </script>
 <style>
 .text {

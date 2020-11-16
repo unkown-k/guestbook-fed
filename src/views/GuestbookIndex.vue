@@ -6,9 +6,9 @@
     <el-main>
       <guestbook-banner></guestbook-banner>
       <div class="content">
-        <guestbook-notice></guestbook-notice>
+        <guestbook-notice @showModel="showModel"></guestbook-notice>
         <guestbook-content></guestbook-content>
-        <guestbook-add></guestbook-add>
+        <guestbook-add v-if="model" @hideModel="hideModel"></guestbook-add>
       </div>
     </el-main>
   </el-container>
@@ -29,6 +29,19 @@ export default {
     GuestbookNotice,
     GuestbookContent,
     GuestbookAdd
+  },
+  data () {
+    return {
+      model:  false
+    }
+  },
+  methods: {
+    showModel (e) {
+      this.model = e
+    },
+    hideModel (e) {
+      this.model = e
+    }
   }
 };
 </script>
