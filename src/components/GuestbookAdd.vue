@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content">
     <div class="mask"></div>
     <div class="modal">
       <div class="modal-content">
@@ -10,13 +10,22 @@
         </div>
         <div class="post_pop_ups">
           <div class="banner">
-            <img class="avatar-img" src="https://thirdqq.qlogo.cn/g?b=oidb&amp;k=WpxPq9qX4p9A6Dv2VECtLw&amp;s=100&amp;t=1602833389" style="border: 1px solid rgba(0, 0, 0, 0.05);">
+            <img class="avatar-img" @click="changeAvatar" style="-webkit-user-select: none;" :src="url">
+            <div>
+              <div class="text_area_name" contenteditable="true" placeholder="输入你的昵称">{{name}}
+              </div>
+            </div>
+            <!-- <img class="avatar-img" src="https://thirdqq.qlogo.cn/g?b=oidb&amp;k=WpxPq9qX4p9A6Dv2VECtLw&amp;s=100&amp;t=1602833389" style="border: 1px solid rgba(0, 0, 0, 0.05);"> -->
           </div>
           <div class="post_form">
             <div class="post_form_userEnter">
               <div class="user_enter_form user_enter_pc">
+                <!-- <div class="text_name">
+                  <div class="text_area_name" contenteditable="true" placeholder="输入你的昵称">
+                  </div>
+                </div> -->
                 <div class="text_outline">
-                  <div class="text_area text_area_maxH" contenteditable="true" placeholder="友善、描述精准的问题，更快得到解答">
+                  <div class="text_area" contenteditable="true" placeholder="友善、描述精准的问题，更快得到解答">
                   </div>
                 </div>
                 <div class="text_func">
@@ -34,12 +43,32 @@
 </template>
 
 <script>
+import Identicon from 'identicon.js'
+import md5 from 'blueimp-md5'
+import { getRandomName } from '@/plugins/getRandomName.js'
 export default {
   name: "GuestbookAdd",
+  data () {
+    return {
+      url: '',
+      name: ''
+    }
+  },
   methods: {
     hideModel () {
       this.$emit('hideModel',false)
+    },
+    changeAvatar () {
+      let avatar = new Identicon(md5(Math.random() || 0), 400).toString()
+      this.url = 'data:image/png;base64,' + avatar
+    },
+    changeName () {
+      this.name = getRandomName(Math.floor(Math.random() * (6 - 2) + 2))
     }
+  },
+  mounted () {
+    this.changeAvatar()
+    this.changeName()
   }
 }
 </script>
@@ -122,10 +151,19 @@ svg:not(:root) {
   border: none;
   overflow: hidden;
 }
+.user_enter_form.user_enter_pc .text_name {
+  max-height: 20px;
+  margin-bottom: 10px;
+}
 .user_enter_form.user_enter_pc .text_outline {
   min-height: 144px;
 }
 .user_enter_form .text_outline {
+  border-radius: 3px;
+  border: 1px solid #dcdce0;
+  padding: 7px 10px;
+}
+.user_enter_form .text_name {
   border-radius: 3px;
   border: 1px solid #dcdce0;
   padding: 7px 10px;
@@ -142,6 +180,15 @@ svg:not(:root) {
   min-height: 52px;
   outline: none;
   position: relative;
+}
+.text_area_name {
+  min-height: 52px;
+  outline: none;
+  position: absolute;
+  top: 35px;
+  left: 140px;
+  width: 100px;
+  text-decoration:underline;
 }
 .post_pop_ups .post_form_userEnter .text_func {
   position: absolute;
@@ -162,5 +209,19 @@ svg:not(:root) {
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
+}
+.text_area_name:empty:not(:focus)::before {
+  content: attr(placeholder);
+  position: absolute;
+  color: #b2b2b2;
+  font-size: 15px;
+  pointer-events: none;
+}
+.user_enter_form .text_area:empty:not(:focus)::before {
+  content: attr(placeholder);
+  position: absolute;
+  color: #b2b2b2;
+  font-size: 15px;
+  pointer-events: none;
 }
 </style>

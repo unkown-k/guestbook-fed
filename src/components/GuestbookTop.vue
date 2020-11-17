@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <div class="header-main">
-      留言版
+      留言板
     </div>
   </div>
 </template>
