@@ -4,5 +4,8 @@ export default {
     },
     saveCartCount(state, cartCount) {
         state.cartCount = cartCount;
+    },
+    saveAvatar(state, myAvatar) {
+        state.myAvatar = myAvatar;
     }
 };

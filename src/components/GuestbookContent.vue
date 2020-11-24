@@ -1,10 +1,11 @@
 <template>
-  <div class="item_inner">
-    <a href="/products/56706/profile/1/" target="_blank" class="user_avatar">
+<div>
+  <div class="item_inner" v-for="(item,index) in contentA" v-bind:key="index">
+    <a target="_blank" class="user_avatar">
       <img
         class="avatar-img"
-        src="https://thirdqq.qlogo.cn/g?b=oidb&amp;k=4b4ricfQdA8VrFRYyzh2tibg&amp;s=100"
-        style="border: 1px solid rgba(0, 0, 0, 0.05);"
+        :src="item.img"
+        style="border: 1px solid rgba(0, 0, 0, 0.05);width: 42px;"
       />
     </a>
     <div class="item_content">
@@ -14,26 +15,31 @@
           target="_blank"
           class="user_name admin"
         >
-          某柠檬管理员
+          {{item.name}}
         </a>
         <div class="public_time">
-          4月16日 22:58
+          {{item.time}}
         </div>
       </div>
       <div class="desc_para">
-        Hello！欢迎来到某柠檬留言板！<br />
-        在这里你可以留言反馈、闲聊、参与活动话题、讨论每日“找点乐子”……<br />
-        讨论须知：<br />
-        请不要在下方留言中发送其他网站链接、违法内容，在留言中带链接，将会被隐藏。<br />
-        分享有趣网站、网站自荐、友情链接等事务请邮件联系voosoom艾特foxmail.com
+       {{item.content}}
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
 export default {
-  name: "GuestbookContent"
+  name: "GuestbookContent",
+  props: {
+    contentA: {
+        type: Array,
+        default: function () {
+          return []
+        }
+    }
+  }
 };
 </script>
 <style scoped>

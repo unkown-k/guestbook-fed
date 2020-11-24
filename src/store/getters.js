@@ -1,10 +1,13 @@
 const getters = {
-    username (state) {
-        return state.username
+    username(state) {
+        return state.username;
     },
-    cartCount (state) {
-        return state.cartCount
-    }  
-}
+    cartCount(state) {
+        return state.cartCount;
+    },
+    myAvatar(state) {
+        return state.myAvatar;
+    }
+};
 
-export default getters
+export default getters;

@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <div class="mask"></div>
+    <div class="mask"  @touchmove.prevent></div>
     <div class="modal">
       <div class="modal-content">
         <div class="modal-close" @click="hideModel">
@@ -10,9 +10,9 @@
         </div>
         <div class="post_pop_ups">
           <div class="banner">
-            <img class="avatar-img" @click="changeAvatar" style="-webkit-user-select: none;" :src="url">
+            <img class="avatar-img" @click="changeAvatar(1)" style="-webkit-user-select: none;" :src="url">
             <div>
-              <div class="text_area_name" contenteditable="true" placeholder="输入你的昵称">{{name}}
+              <div class="text_area_name" contenteditable="true" placeholder="输入你的昵称" @blur='saveName'>{{name}}
               </div>
             </div>
             <!-- <img class="avatar-img" src="https://thirdqq.qlogo.cn/g?b=oidb&amp;k=WpxPq9qX4p9A6Dv2VECtLw&amp;s=100&amp;t=1602833389" style="border: 1px solid rgba(0, 0, 0, 0.05);"> -->
@@ -29,7 +29,7 @@
                   </div>
                 </div>
                 <div class="text_func">
-                  <button class="text_func_btn">
+                  <button class="text_func_btn" @click="submit">
                     发布
                   </button>
                 </div>
@@ -46,24 +46,43 @@
 import Identicon from 'identicon.js'
 import md5 from 'blueimp-md5'
 import { getRandomName } from '@/plugins/getRandomName.js'
+import { mapActions, mapGetters } from 'vuex';
 export default {
   name: "GuestbookAdd",
   data () {
     return {
       url: '',
-      name: ''
+      name: '',
+      thisAvatar: ''
     }
   },
+  computed:{
+    ...mapGetters(['myAvatar', 'username'])
+  },
   methods: {
+    ...mapActions(['saveUserName','saveAvatar']),
     hideModel () {
       this.$emit('hideModel',false)
     },
     changeAvatar () {
-      let avatar = new Identicon(md5(Math.random() || 0), 400).toString()
-      this.url = 'data:image/png;base64,' + avatar
+      if (this.myAvatar === '') {
+        this.thisAvatar = new Identicon(md5(Math.random() || 0), 400).toString()
+        this.saveAvatar(this.thisAvatar)
+      }
+      this.url = 'data:image/png;base64,' + this.myAvatar
     },
     changeName () {
-      this.name = getRandomName(Math.floor(Math.random() * (6 - 2) + 2))
+      if (this.username === '') {
+        this.name = getRandomName(Math.floor(Math.random() * (6 - 2) + 2))
+      } else {
+        this.name = this.username
+      }
+    },
+    submit () {
+      this.saveName()
+    },
+    saveName () {
+      this.saveUserName(this.name)
     }
   },
   mounted () {
@@ -73,6 +92,11 @@ export default {
 }
 </script>
 <style scoped>
+@media screen and (max-height: 1200px) {
+  .modal {
+      overflow-y: scroll;
+  }
+}
 .modal {
   position: fixed;
   top: 0;
@@ -223,5 +247,16 @@ svg:not(:root) {
   color: #b2b2b2;
   font-size: 15px;
   pointer-events: none;
+}
+.user_enter_form .text_func_btn {
+    float: right;
+    width: 74px;
+    height: 32px;
+    background: #3e8dff;
+    border-radius: 3px;
+    border: 1px solid #2f7ceb;
+    line-height: 32px;
+    color: #fff;
+    cursor: pointer;
 }
 </style>
