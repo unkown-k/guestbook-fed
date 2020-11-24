@@ -12,8 +12,7 @@
           <div class="banner">
             <img class="avatar-img" @click="changeAvatar(1)" style="-webkit-user-select: none;" :src="url">
             <div>
-              <div class="text_area_name" contenteditable="true" placeholder="输入你的昵称" @blur='saveName'>{{name}}
-              </div>
+              <input class="text_area_name" contenteditable="true" placeholder="输入你的昵称" v-model="name" @blur="saveName">
             </div>
             <!-- <img class="avatar-img" src="https://thirdqq.qlogo.cn/g?b=oidb&amp;k=WpxPq9qX4p9A6Dv2VECtLw&amp;s=100&amp;t=1602833389" style="border: 1px solid rgba(0, 0, 0, 0.05);"> -->
           </div>
@@ -64,8 +63,8 @@ export default {
     hideModel () {
       this.$emit('hideModel',false)
     },
-    changeAvatar () {
-      if (this.myAvatar === '') {
+    changeAvatar (e) {
+      if (this.myAvatar === '' || e === 1) {
         this.thisAvatar = new Identicon(md5(Math.random() || 0), 400).toString()
         this.saveAvatar(this.thisAvatar)
       }
@@ -209,10 +208,13 @@ svg:not(:root) {
   min-height: 52px;
   outline: none;
   position: absolute;
-  top: 35px;
+  top: 15px;
+  font-size: 17px;
   left: 140px;
   width: 100px;
   text-decoration:underline;
+  background-color: transparent;
+  border: 0;
 }
 .post_pop_ups .post_form_userEnter .text_func {
   position: absolute;
