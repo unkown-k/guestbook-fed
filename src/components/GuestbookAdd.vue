@@ -24,13 +24,12 @@
                   </div>
                 </div> -->
                 <div class="text_outline">
-                  <div class="text_area" contenteditable="true" placeholder="友善、描述精准的问题，更快得到解答">
-                  </div>
+                  <textarea class="text_area_inp" contenteditable="true" placeholder="友善、描述精准的问题，更快得到解答" v-model="content"></textarea>
                 </div>
                 <div class="text_func">
-                  <button class="text_func_btn" @click="submit">
+                  <div class="text_func_btn" @click="submit">
                     发布
-                  </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -52,7 +51,8 @@ export default {
     return {
       url: '',
       name: '',
-      thisAvatar: ''
+      thisAvatar: '',
+      content: ''
     }
   },
   computed:{
@@ -79,6 +79,18 @@ export default {
     },
     submit () {
       this.saveName()
+      this.axios.post('testInsert',{
+          nick_name:this.name,
+          content:this.content
+        }).then((res)=>{
+          console.log(res)
+        })
+      // this.axios.post('/user/login',{
+      //   username: 'cjh',
+      //   password: 'cjh'
+      // }).then((res)=>{
+      //     console.log(res)
+      //   })
     },
     saveName () {
       this.saveUserName(this.name)
@@ -183,8 +195,8 @@ svg:not(:root) {
 }
 .user_enter_form .text_outline {
   border-radius: 3px;
-  border: 1px solid #dcdce0;
-  padding: 7px 10px;
+  /* border: 1px solid #dcdce0; */
+  /* padding: 7px 10px; */
 }
 .user_enter_form .text_name {
   border-radius: 3px;
@@ -227,6 +239,7 @@ svg:not(:root) {
   position: absolute;
   top: 0;
   right: -570px;
+  text-align: center;
 }
 .mask {
   position: fixed;
@@ -260,5 +273,20 @@ svg:not(:root) {
     line-height: 32px;
     color: #fff;
     cursor: pointer;
+}
+.text_area_inp{
+    width: 99%;
+    height: 100%;
+    min-height: 144px;
+    border: 1px solid #dcdce0;
+    border-radius: 3px;
+    outline: none;
+}
+.text_area_inp:empty:not(:focus)::before {
+  content: attr(placeholder);
+  position: absolute;
+  color: #b2b2b2;
+  font-size: 15px;
+  pointer-events: none;
 }
 </style>
