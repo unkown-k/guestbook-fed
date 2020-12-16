@@ -2,20 +2,40 @@
   <el-card class="box-card">
     <div slot="header" class="clearfix">
       <span>公告栏</span>
-      <el-button style="float: right; padding: 3px 0" type="text">
-        留言
-      </el-button>
+      <div @click="showModel">
+        <el-button style="float: right; padding: 3px 0" type="text">
+          留言
+        </el-button>
+      </div>
     </div>
     <div class="text item">
-      1111
+      期待你的声音
     </div>
   </el-card>
 </template>
 
 <script>
 export default {
-  name: "GuestbookNotice"
-};
+  name: "GuestbookNotice",
+  methods: {
+    showModel () {
+      this.$emit('showModel',true)
+    },
+    getNotice () {
+      this.axios.post('/testSelect',{
+          orderId:this.orderId,
+          orderName:'Vue高仿小米商城',
+          amount:0.01,//单位元
+          payType:1 //1支付宝，2微信
+        }).then((res)=>{
+          this.content = res.content;
+          setTimeout(()=>{
+            document.forms[0].submit();
+          },100)
+        })
+    }
+  }
+}
 </script>
 <style>
 .text {
