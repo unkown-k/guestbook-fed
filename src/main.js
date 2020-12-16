@@ -8,19 +8,13 @@ import "./plugins/element.js";
 
 axios.defaults.baseURL = "/api";
 axios.defaults.timeout = 8000;
-
-axios.interceptors.response.use(
-    function(response) {
-        console.log(response);
-        let res = response.data;
-        return Promise.reject(res);
-    },
-    error => {
-        console.log(error);
-        let res = error.response;
-        return Promise.reject(res);
-    }
-);
+axios.interceptors.response.use(function(response) {
+    return new Promise(resolve => {
+        resolve(response.data);
+    }).catch(e => {
+        console.log(e);
+    });
+});
 
 Vue.use(VueAxios, axios);
 Vue.config.productionTip = false;

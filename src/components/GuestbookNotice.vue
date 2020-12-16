@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="text item">
-      期待你的声音
+      {{content}}
     </div>
   </el-card>
 </template>
@@ -17,23 +17,25 @@
 <script>
 export default {
   name: "GuestbookNotice",
+  data () {
+    return {
+      content: ''
+    }
+  },
   methods: {
     showModel () {
       this.$emit('showModel',true)
     },
     getNotice () {
-      this.axios.post('/testSelect',{
-          orderId:this.orderId,
-          orderName:'Vue高仿小米商城',
-          amount:0.01,//单位元
-          payType:1 //1支付宝，2微信
-        }).then((res)=>{
-          this.content = res.content;
-          setTimeout(()=>{
-            document.forms[0].submit();
-          },100)
-        })
+      this.axios.get('testSelectnotice',{}).then((res)=>{
+        if (res.errCode === 0) {
+          this.content = res.model.content
+        }
+      })
     }
+  },
+  mounted () {
+    this.getNotice()
   }
 }
 </script>

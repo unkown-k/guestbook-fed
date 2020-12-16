@@ -52,7 +52,8 @@ export default {
       url: '',
       name: '',
       thisAvatar: '',
-      content: ''
+      content: '',
+      a: ''
     }
   },
   computed:{
@@ -65,10 +66,11 @@ export default {
     },
     changeAvatar (e) {
       if (this.myAvatar === '' || e === 1) {
-        this.thisAvatar = new Identicon(md5(Math.random() || 0), 400).toString()
-        this.saveAvatar(this.thisAvatar)
+        this.a  = Math.random()
+        this.thisAvatar = new Identicon(md5(this.a|| 0), 400).toString()
+        this.saveAvatar(this.a)
       }
-      this.url = 'data:image/png;base64,' + this.myAvatar
+      this.url = 'data:image/png;base64,' + new Identicon(md5(this.myAvatar|| 0), 400).toString()
     },
     changeName () {
       if (this.username === '') {
@@ -79,18 +81,17 @@ export default {
     },
     submit () {
       this.saveName()
+      let self = this
       this.axios.post('testInsert',{
-          nick_name:this.name,
-          content:this.content
+          nick_name:self.name,
+          content:self.content,
+          head_portrait: self.a
         }).then((res)=>{
           console.log(res)
+          if (res.errCode === 0) {
+            self.hideModel()
+          }
         })
-      // this.axios.post('/user/login',{
-      //   username: 'cjh',
-      //   password: 'cjh'
-      // }).then((res)=>{
-      //     console.log(res)
-      //   })
     },
     saveName () {
       this.saveUserName(this.name)

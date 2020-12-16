@@ -4,21 +4,21 @@
     <a target="_blank" class="user_avatar">
       <img
         class="avatar-img"
-        :src="item.img"
+        :src="item.head_portrait"
         style="border: 1px solid rgba(0, 0, 0, 0.05);width: 42px;"
       />
     </a>
     <div class="item_content">
       <div class="user_info">
         <a
-          href="/products/56706/profile/1/"
-          target="_blank"
+          href="javascript:void(0);"
           class="user_name admin"
+          style="text-decoration:none;"
         >
-          {{item.name}}
+          {{item.nick_name}}
         </a>
         <div class="public_time">
-          {{item.time}}
+          {{item.creat_time}}
         </div>
       </div>
       <div class="desc_para">

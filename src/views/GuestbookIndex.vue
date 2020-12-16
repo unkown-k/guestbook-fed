@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import Identicon from 'identicon.js'
+import md5 from 'blueimp-md5'
 // @ is an alias to /src
 import GuestbookAdd from "@/components/GuestbookAdd.vue";
 import GuestbookContent from "@/components/GuestbookContent.vue";
@@ -65,7 +67,23 @@ export default {
       let m =function(e){e.preventDefault();};
       document.body.style.overflow='';//出现滚动条
       document.removeEventListener("touchmove",m,{ passive:true });
+    },
+    getContent () {
+      this.axios.get('testSelect',{}).then((res)=>{
+        if (res.errCode === 0) {
+          this.content = res.data
+          this.content.map(e => {
+            if (e.head_portrait !== '' && e.head_portrait !== null) {
+              e.head_portrait = 'data:image/png;base64,' + new Identicon(md5(parseInt(e.head_portrait)|| 0), 400).toString()
+            }
+          })
+          console.log(this.content)
+        }
+      })
     }
+  },
+  mounted () {
+    this.getContent()
   }
 };
 </script>
