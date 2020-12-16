@@ -1,4 +1,4 @@
-# 小白JavaWeb开发入门-留言板
+# 零基础JavaWeb开发入门-留言板
 
 [留言板前端](https://github.com/unkown-k/guestbook-fed)
 
