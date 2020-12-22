@@ -27,8 +27,8 @@ export default {
       this.$emit('showModel',true)
     },
     getNotice () {
-      this.axios.get('testSelectnotice',{}).then((res)=>{
-        if (res.errCode === 0) {
+      this.axios.get('notice/1',{}).then((res)=>{
+        if (res.code === 0) {
           this.content = res.model.content
         }
       })
