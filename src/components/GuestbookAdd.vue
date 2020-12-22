@@ -66,8 +66,8 @@ export default {
     },
     changeAvatar (e) {
       if (this.myAvatar === '' || e === 1) {
-        this.a  = Math.random()
-        this.thisAvatar = new Identicon(md5(this.a|| 0), 400).toString()
+        this.a  = md5(Math.random()|| 0)
+        this.thisAvatar = new Identicon(this.a, 400).toString()
         this.saveAvatar(this.a)
       }
       this.url = 'data:image/png;base64,' + new Identicon(md5(this.myAvatar|| 0), 400).toString()

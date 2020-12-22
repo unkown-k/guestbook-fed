@@ -16,7 +16,7 @@
 
 <script>
 import Identicon from 'identicon.js'
-import md5 from 'blueimp-md5'
+// import md5 from 'blueimp-md5'
 // @ is an alias to /src
 import GuestbookAdd from "@/components/GuestbookAdd.vue";
 import GuestbookContent from "@/components/GuestbookContent.vue";
@@ -73,11 +73,12 @@ export default {
         if (res.code === 0) {
           this.content = res.data
           this.content.map(e => {
-            if (e.headPortrait !== '' && e.headPortrait !== null) {
-              e.headPortrait = 'data:image/png;base64,' + new Identicon(md5(parseInt(e.head_portrait)|| 0), 400).toString()
+            if (e.headPortrait !== '' && typeof e.headPortrait !== "undefined") {
+              e.headPortrait = 'data:image/png;base64,' + new Identicon(e.headPortrait, 400).toString()
+            } else {
+              e.headPortrait = 'https://thirdqq.qlogo.cn/g?b=oidb&k=4b4ricfQdA8VrFRYyzh2tibg&s=100'
             }
           })
-          console.log(this.content)
         }
       })
     }
