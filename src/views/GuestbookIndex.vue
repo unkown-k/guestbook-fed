@@ -69,12 +69,12 @@ export default {
       document.removeEventListener("touchmove",m,{ passive:true });
     },
     getContent () {
-      this.axios.get('testSelect',{}).then((res)=>{
-        if (res.errCode === 0) {
+      this.axios.get('/guestbook',{}).then((res)=>{
+        if (res.code === 0) {
           this.content = res.data
           this.content.map(e => {
-            if (e.head_portrait !== '' && e.head_portrait !== null) {
-              e.head_portrait = 'data:image/png;base64,' + new Identicon(md5(parseInt(e.head_portrait)|| 0), 400).toString()
+            if (e.headPortrait !== '' && e.headPortrait !== null) {
+              e.headPortrait = 'data:image/png;base64,' + new Identicon(md5(parseInt(e.head_portrait)|| 0), 400).toString()
             }
           })
           console.log(this.content)

@@ -4,7 +4,7 @@
     <a target="_blank" class="user_avatar">
       <img
         class="avatar-img"
-        :src="item.head_portrait"
+        :src="item.headPortrait"
         style="border: 1px solid rgba(0, 0, 0, 0.05);width: 42px;"
       />
     </a>
@@ -15,10 +15,10 @@
           class="user_name admin"
           style="text-decoration:none;"
         >
-          {{item.nick_name}}
+          {{item.nickName}}
         </a>
         <div class="public_time">
-          {{item.creat_time}}
+          {{item.creatTime}}
         </div>
       </div>
       <div class="desc_para">

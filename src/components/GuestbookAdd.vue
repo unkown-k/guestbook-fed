@@ -82,13 +82,13 @@ export default {
     submit () {
       this.saveName()
       let self = this
-      this.axios.post('testInsert',{
-          nick_name:self.name,
+      this.axios.post('/guestbook',{
+          nickName:self.name,
           content:self.content,
-          head_portrait: self.a
+          headPortrait: self.a
         }).then((res)=>{
           console.log(res)
-          if (res.errCode === 0) {
+          if (res.code === 0) {
             self.hideModel()
           }
         })
