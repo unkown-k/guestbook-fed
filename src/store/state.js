@@ -1,6 +1,6 @@
 const state = {
     username: "",
-    cartCount: 0,
+    cartCount: "",
     myAvatar: ""
 };
 export default state;

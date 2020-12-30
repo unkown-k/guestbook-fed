@@ -17,6 +17,7 @@
         >
           {{item.nickName}}
         </a>
+        <a href="javascript:void(0);" class="change user_name admin" style="text-decoration:none;" v-if="item.edit === 1" @click="edit(item)">修改</a>
         <div class="public_time">
           {{item.creatTime}}
         </div>
@@ -39,6 +40,19 @@ export default {
           return []
         }
     }
+  },
+  data () {
+    return {
+      avatar: localStorage.getItem('avatar')
+    }
+  },
+  methods : {
+    edit (e) {
+      this.$emit('edit', e)
+    }
+  },
+  mounted () {
+    console.log(this.avatar)
   }
 };
 </script>
@@ -83,5 +97,10 @@ export default {
 }
 .user_info {
   overflow: hidden;
+  position: relative
+}
+.change{
+  position: absolute;
+  right: 0px;
 }
 </style>

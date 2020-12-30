@@ -51,13 +51,19 @@
 
   export default {
     name: "GuestbookAdd",
+    props: {
+      edit: {
+        type: String,
+        default: ""
+       }
+    },
     data() {
       return {
         url: '',
         name: '',
         thisAvatar: '',
         content: '',
-        a: ''
+        avatar: ''
       }
     },
     computed: {
@@ -70,11 +76,11 @@
       },
       changeAvatar(e) {
         if (this.myAvatar === '' || e === 1) {
-          this.a = md5(Math.random() || 0)
-          this.thisAvatar = new Identicon(this.a, 400).toString()
-          this.saveAvatar(this.a)
+          this.avatar = md5(Math.random() || 0)
+          this.thisAvatar = new Identicon(this.avatar, 400).toString()
+          this.saveAvatar(this.avatar)
         }
-        this.url = 'data:image/png;base64,' + new Identicon(md5(this.myAvatar || 0), 400).toString()
+        this.url = 'data:image/png;base64,' + new Identicon(this.myAvatar, 400).toString()
       },
       changeName() {
         if (this.username === '') {
@@ -86,24 +92,58 @@
       submit() {
         this.saveName()
         let self = this
-        this.axios.post('/guestbook', {
-          nickName: self.name,
-          content: self.content,
-          headPortrait: self.a
-        }).then((res) => {
-          console.log(res)
-          if (res.code === 0) {
-            self.hideModel()
-          }
-        })
+        if (self.edit === '') {
+          this.axios.post('/guestbook', {
+            nickName: self.name,
+            content: self.content,
+            headPortrait: self.avatar
+          },{
+            headers: {'uid':localStorage.getItem('uid')}
+          }).then((res) => {
+            if (res.code === 0) {
+              self.saveAvatar(this.avatar)
+              self.saveName()
+              localStorage.setItem('avatar',self.avatar)
+              localStorage.setItem('userName',self.name)
+              self.hideModel()
+            }
+          })
+        } else {
+          this.axios.patch('/guestbook/'+JSON.parse(this.edit).id, {
+            nickName: self.name,
+            content: self.content,
+            headPortrait: self.avatar
+          },{
+            headers: {'uid':localStorage.getItem('uid')}
+          }).then((res) => {
+            if (res.code === 0) {
+              self.saveAvatar(this.avatar)
+              self.saveName()
+              localStorage.setItem('avatar',self.avatar)
+              localStorage.setItem('userName',self.name)
+              self.hideModel()
+            }
+          })
+        }
       },
       saveName() {
         this.saveUserName(this.name)
       }
     },
     mounted() {
-      this.changeAvatar()
-      this.changeName()
+      if (this.edit !== '') {
+        this.content = JSON.parse(this.edit).content
+      } else {
+        this.content = ''
+      }
+      if (localStorage.getItem('avatar')) {
+        this.avatar = localStorage.getItem('avatar')
+        this.saveAvatar(this.avatar)
+        this.name = localStorage.getItem('userName')
+        this.saveUserName(this.name)
+      }
+        this.changeAvatar()
+        this.changeName()
     }
   }
 </script>
